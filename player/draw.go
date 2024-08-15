@@ -23,7 +23,9 @@ func (player *Player) Draw(screen *ebiten.Image) {
 	engineOpts.GeoM.Translate(float64(player.x), float64(player.y))
 
 	effectOpts := ebiten.DrawImageOptions{}
-	effectImage := player.engineEffectSprite.SubImage(image.Rect(0, 0, 48, 48)).(*ebiten.Image)
+	i := int((player.frameCount / 5) % 3)
+	sx, sy := 0+i*48, 0
+	effectImage := player.engineEffectSprite.SubImage(image.Rect(sx, sy, sx+48, sy+48)).(*ebiten.Image)
 	effectImageSize := effectImage.Bounds().Size()
 	effectOpts.GeoM.Translate(-float64(effectImageSize.X)/2, -float64(effectImageSize.Y)/2)
 	effectOpts.GeoM.Rotate(util.DegreesToRadians(player.angle))
