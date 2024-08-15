@@ -11,6 +11,7 @@ type Player struct {
 	bullets    []*Bullet
 	frameCount uint
 	health     uint
+	angle      float64
 
 	baseSprite         *ebiten.Image
 	engineSprite       *ebiten.Image
@@ -25,8 +26,11 @@ func (player *Player) Teleport(x, y float32) {
 }
 
 func (player *Player) Shoot() {
-	leftBullet := NewBullet(player.x-7, player.y-10, player.bulletSprite)
-	rightBullet := NewBullet(player.x+7, player.y-10, player.bulletSprite)
+	// TODO: fix spawn coords for bullets according to angle
+	x1, y1 := player.x-7, player.y-10
+	x2, y2 := player.x+7, player.y-10
+	leftBullet := NewBullet(x1, y1, player.angle, player.bulletSprite)
+	rightBullet := NewBullet(x2, y2, player.angle, player.bulletSprite)
 	player.bullets = append(player.bullets, leftBullet, rightBullet)
 }
 

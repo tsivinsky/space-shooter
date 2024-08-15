@@ -1,6 +1,8 @@
 package player
 
 import (
+	"math"
+
 	"github.com/hajimehoshi/ebiten/v2"
 	"github.com/hajimehoshi/ebiten/v2/inpututil"
 )
@@ -11,21 +13,25 @@ func (player *Player) Update() {
 	player.frameCount++
 
 	if ebiten.IsKeyPressed(ebiten.KeyLeft) {
-		player.x = max(player.x-float32(player.speed), 16)
+		player.angle -= 4.0
 	}
 	if ebiten.IsKeyPressed(ebiten.KeyRight) {
-		player.x = min(player.x+float32(player.speed), float32(screenWidth-16))
+		player.angle += 4.0
 	}
+
 	if ebiten.IsKeyPressed(ebiten.KeyUp) {
-		player.y = max(player.y-float32(player.speed), 12)
-	}
-	if ebiten.IsKeyPressed(ebiten.KeyDown) {
+		player.x += float32(player.speed) * float32(math.Cos((player.angle-90)*(math.Pi/180)))
+		player.y += float32(player.speed) * float32(math.Sin((player.angle-90)*(math.Pi/180)))
+
+		player.x = max(player.x, 16)
+		player.x = min(player.x, float32(screenWidth-16))
 		const healthBarHeight = 48 + 10 // height + offset from border
-		player.y = min(player.y+float32(player.speed), float32(screenHeight-healthBarHeight-16))
+		player.y = max(player.y, 12)
+		player.y = min(player.y, float32(screenHeight-healthBarHeight-16))
 	}
 
 	// if I want to show animation for ship while shooting, I will need to use `StartShooting` and `StopShooting` methods and cycle through sprites is isShooting == true
-	if ebiten.IsKeyPressed(ebiten.KeySpace) && player.frameCount%15 == 0 {
+	if ebiten.IsKeyPressed(ebiten.KeySpace) && player.frameCount%10 == 0 {
 		player.Shoot()
 	}
 
