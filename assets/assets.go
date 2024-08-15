@@ -17,4 +17,7 @@ var (
 
 	//go:embed sprites/ship/autocannon_bullet.png
 	AutocannonBulletSource []byte
+
+	//go:embed sprites/health.png
+	HealthSource []byte
 )

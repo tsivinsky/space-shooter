@@ -10,6 +10,7 @@ type Player struct {
 	speed      uint
 	bullets    []*Bullet
 	frameCount uint
+	health     uint
 
 	baseSprite         *ebiten.Image
 	engineSprite       *ebiten.Image
@@ -29,11 +30,20 @@ func (player *Player) Shoot() {
 	player.bullets = append(player.bullets, leftBullet, rightBullet)
 }
 
+func (player *Player) Health() uint {
+	return player.health
+}
+
+func (player *Player) Heal() {
+	player.health++
+}
+
 func New(x, y float32) *Player {
 	player := &Player{
-		x:     x,
-		y:     y,
-		speed: 10,
+		x:      x,
+		y:      y,
+		speed:  10,
+		health: 3,
 	}
 
 	if err := player.loadSprites(); err != nil {

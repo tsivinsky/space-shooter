@@ -1,13 +1,18 @@
 package main
 
 import (
+	"bytes"
+	"space-shooter/assets"
 	"space-shooter/player"
 
 	"github.com/hajimehoshi/ebiten/v2"
+	"github.com/hajimehoshi/ebiten/v2/ebitenutil"
 )
 
 type Game struct {
 	player *player.Player
+
+	healthSprite *ebiten.Image
 }
 
 func (game *Game) Layout(screenWidth, screenHeight int) (int, int) {
@@ -22,11 +27,18 @@ func (game *Game) Update() error {
 
 func (game *Game) Draw(screen *ebiten.Image) {
 	game.player.Draw(screen)
+	game.drawHealth(screen)
 }
 
 func main() {
+	healthSprite, _, err := ebitenutil.NewImageFromReader(bytes.NewReader(assets.HealthSource))
+	if err != nil {
+		panic(err)
+	}
+
 	game := &Game{
-		player: player.New(0, 0),
+		player:       player.New(0, 0),
+		healthSprite: healthSprite,
 	}
 
 	ebiten.SetWindowSize(1920, 1080)
