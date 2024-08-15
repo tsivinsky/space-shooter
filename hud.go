@@ -9,7 +9,8 @@ func (game *Game) drawHealth(screen *ebiten.Image) {
 		opts := ebiten.DrawImageOptions{}
 		img := game.healthSprite
 		opts.GeoM.Scale(0.096, 0.096) // so it would be 48x48, original size is 500x500
-		opts.GeoM.Translate(float64(10+i*48), float64(screenHeight-58))
+		opts.GeoM.Scale(game.scale, game.scale)
+		opts.GeoM.Translate(float64(10+i*48)*game.scale, float64(screenHeight)-58*game.scale)
 		screen.DrawImage(img, &opts)
 	}
 }

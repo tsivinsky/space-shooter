@@ -12,12 +12,17 @@ type Player struct {
 	frameCount uint
 	health     uint
 	angle      float64
+	scale      float64
 
 	baseSprite         *ebiten.Image
 	engineSprite       *ebiten.Image
 	engineEffectSprite *ebiten.Image
 	weaponSprite       *ebiten.Image
 	bulletSprite       *ebiten.Image
+}
+
+func (player *Player) SetScale(scale float64) {
+	player.scale = scale
 }
 
 func (player *Player) Teleport(x, y float32) {
@@ -48,6 +53,7 @@ func New(x, y float32) *Player {
 		y:      y,
 		speed:  10,
 		health: 3,
+		scale:  1.0,
 	}
 
 	if err := player.loadSprites(); err != nil {

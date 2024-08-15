@@ -23,11 +23,11 @@ func (player *Player) Update() {
 		player.x += float32(player.speed) * float32(math.Cos((player.angle-90)*(math.Pi/180)))
 		player.y += float32(player.speed) * float32(math.Sin((player.angle-90)*(math.Pi/180)))
 
-		player.x = max(player.x, 16)
-		player.x = min(player.x, float32(screenWidth-16))
+		player.x = max(player.x, float32(16.0*player.scale))
+		player.x = min(player.x, float32(screenWidth-16)*float32(player.scale))
 		const healthBarHeight = 48 + 10 // height + offset from border
-		player.y = max(player.y, 12)
-		player.y = min(player.y, float32(screenHeight-healthBarHeight-16))
+		player.y = max(player.y, float32(12*player.scale))
+		player.y = min(player.y, float32(screenHeight-healthBarHeight-16)*float32(player.scale))
 	}
 
 	// if I want to show animation for ship while shooting, I will need to use `StartShooting` and `StopShooting` methods and cycle through sprites is isShooting == true

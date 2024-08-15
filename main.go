@@ -11,6 +11,7 @@ import (
 
 type Game struct {
 	player *player.Player
+	scale  float64
 
 	healthSprite *ebiten.Image
 }
@@ -20,6 +21,10 @@ func (game *Game) Layout(screenWidth, screenHeight int) (int, int) {
 }
 
 func (game *Game) Update() error {
+	w, _ := ebiten.WindowSize()
+	game.scale = float64(w / 1920)
+	game.player.SetScale(game.scale)
+
 	game.player.Update()
 
 	return nil
