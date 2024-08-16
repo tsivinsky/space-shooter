@@ -20,4 +20,10 @@ var (
 
 	//go:embed sprites/health.png
 	HealthSource []byte
+
+	//go:embed sprites/enemies/battlecruiser_base.png
+	EnemyBattleCruiserBaseSource []byte
+
+	//go:embed sprites/enemies/frigate_base.png
+	EnemyFrigateBaseSource []byte
 )

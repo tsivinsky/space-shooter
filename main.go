@@ -3,6 +3,7 @@ package main
 import (
 	"bytes"
 	"space-shooter/assets"
+	"space-shooter/enemy"
 	"space-shooter/player"
 
 	"github.com/hajimehoshi/ebiten/v2"
@@ -10,7 +11,9 @@ import (
 )
 
 type Game struct {
-	player *player.Player
+	player  *player.Player
+	enemies []*enemy.Enemy
+	count   int
 
 	healthSprite *ebiten.Image
 }
@@ -20,14 +23,34 @@ func (game *Game) Layout(screenWidth, screenHeight int) (int, int) {
 }
 
 func (game *Game) Update() error {
+	game.count++
+
 	game.player.Update()
+
+	playerX, playerY := game.player.Coords()
+	for _, enemy := range game.enemies {
+		enemy.Update(playerX, playerY)
+	}
+
+	if game.count%240 == 0 {
+		game.spawnEnemy()
+	}
 
 	return nil
 }
 
 func (game *Game) Draw(screen *ebiten.Image) {
 	game.player.Draw(screen)
+
+	for _, enemy := range game.enemies {
+		enemy.Draw(screen)
+	}
+
 	game.drawHealth(screen)
+}
+
+func (game *Game) spawnEnemy() {
+	game.enemies = append(game.enemies, enemy.New())
 }
 
 func main() {

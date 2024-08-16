@@ -25,6 +25,10 @@ func (player *Player) Teleport(x, y float32) {
 	player.y = y
 }
 
+func (player *Player) Coords() (float32, float32) {
+	return player.x, player.y
+}
+
 func (player *Player) Shoot() {
 	// TODO: fix spawn coords for bullets according to angle
 	x1, y1 := player.x-7, player.y-10
